@@ -1,0 +1,596 @@
+---
+title: "Does Democracy Encourage E-Government?"
+author: "Maria Eduarda R. N. Lessa"
+date: "August, 2019"
+output:
+  pdf_document: default
+  '': default
+fontsize: 12pt
+linestretch: 1.5
+---
+
+
+```{r echo=FALSE, message=FALSE, results='hide', warning=FALSE}
+load("mariaeduarda-lessa-ad-ufpe-2019.RData")
+require(ggforce)
+require(ggplot2)
+require(ggrepel)
+require(stargazer)
+require(coefplot)
+require(lmtest)
+require(MASS)
+require(magrittr)
+require(dplyr)
+require(car)
+require(tinytex)
+```
+
+## **ABSTRACT**:
+
+\singlespacing
+
+###### &nbsp;&nbsp;&nbsp; As stated by Stephen Goldsmith, “data and technology can fundamentally change and shape the way government operates”. Promises of an emerging "participatory" democracy powered by communication and information technologies became frequent in the literature; at the same time, however, scandals involving these same technologies - as Wikileaks and the Cambridge Analytica case – directed perspectives to a less optimistic scenario in which those tools could actually pose a real threat to democratic institutions. This article, therefore, aimed to analyze the relation between democracy and technology, more specifically electronic government initiatives, to observe if “more democratic” countries tend to present more developed e-government policies. Three hypotheses were tested: [H1] more democratic countries will present higher E-Government Development scores (EGDI); [H2] more democratic continents will present stronger effects of Democracy Index on EGDI; [H3] the variation in the Democracy Index is associated to the variation in the E-Government Index. To the first hypotheses, a bivariate regression analysis showed a positive and statistically significant relationship between the level of democracy and the offer of electronic public services by a country. For the second, a multiple regression analysis was conducted and showed that the intensity and significance of the effect found in the first hypothesis depends, indeed, on the demographic region the country is inserted. It wasn’t possible, however, to reject the null hypothesis, since for the European continent, for example, that has a high percentage of democratic countries, this effect appeared to be weaker than in the Asian continent, and not statistically significant. Finally, for the third hypotheses another multiple linear regression was used to investigate if there was a relation between the variation of democracy and e-government initiatives, which revealed a non-statistically significant relation amidst the variables analyzed.  
+
+***
+\begin{Form}
+    \TextField[width = 19cm,%
+               height = 2cm,%
+               multiline=true,%
+               bordercolor = 0 0 0,%
+               backgroundcolor = 1 1 1,%
+               color = 0 0 0,%
+               value = {%
+                          Dataset and codes available at Github and Dataverse:             https://github.com/lessaeduarda/datademegov                         
+https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/RKQ4SE
+                        }%
+               ]{}
+\end{Form}
+
+\pagebreak
+
+\onehalfspacing
+
+## **1.	INTRODUCTION**
+#### &nbsp;&nbsp;&nbsp; Information and communication technologies (ICTs) have been important catalysts in the process of recent changes in society; they have revolutionized the ways of living, working and, especially, the relationships between individuals. Governments and institutions are undergoing a process of reformulation, as are education, health, and transportation systems. The use of these technologies has altered the behavior of citizens the systems of production and consumption (Schwab, 2017), as well as the social, economic and cultural context in which they are inserted. Public and private sector, academic community and civil society strive to connect their efforts in order to ensure that these emerging tools can be applied effectively and achieve the desired results. The growing relevance of human capital has fostered innovative practices in the most diverse areas - since technologies are developed from the knowledge of individuals -, on the other hand, however, its concentration in the hands of a small proportion of the population has exacerbated inequalities^1^.
+#### &nbsp;&nbsp;&nbsp; The connection between the physical and virtual worlds evolves as new technological platforms are created. The Internet of Things (IoT), Artificial Intelligence, Blockchain, Machine Learning, collaborative economy, and yet an extensive list of tools and processes, all operate to reduce bureaucracy in quotidian activities, make them less costly and assist the decision-making process of individuals. The volume of data produced every day fuels these new technologies, providing useful information for citizens, public and private sector. In the information society, knowledge is power; the ability to access, use and share information plays a leading role in the development of social, political and economic relations (MATTELART, 2001).
+#### &nbsp;&nbsp;&nbsp; Technology has been a great ally in solving and identifying city problems, for example, as can be seen from the growing literature on smart cities. In these cities, public policies are formulated and services are offered with the help of ICTs: e-government systems, real-time information about transportation systems, dynamic traffic lights, surveillance and predictive police services, location services and yet a large number of public projects that can benefit from the development of initiatives such as those mentioned above (KITCHIN, 2016). A second point presented by authors such as Mossberger, Tolbert and McNeal (2017), is that the use of these tools fosters a civic culture, facilitating citizen participation, improving community engagement and the democratic system. Furthermore, a study conducted by the United Nations (UN) in 40 municipalities pointed that electronic government improves public services, citizen involvement, transparency and accountability of local authorities, strengthens resilience, sustainability and better aligns local government operations with national digital strategies (UNITED NATIONS E-GOVERNMENT SURVEY, 2018).
+#### &nbsp;&nbsp;&nbsp; The analysis commonly found in the literature about electronic services offered by governments focus mainly on the technical aspect of their application, that is, on the ability of states to develop these types of initiatives; the political context, however, is often neglected. To contribute to this discussion, therefore, this paper aims to analyze how the ability to offer these types of services is affected by the institutional context of a country. More specifically, the relationship between e-government and democracy will be observed through empirical evidence in order to answer the following questions: do “more” democratic countries have better conditions for the implementation and offer of electronic public services than “less” democratic states?^2^ Are the observed trends relevant to different continents? Is there an association between the variation of democracy and e-government?
+
+## **1.1.	 E-GOVERNMENT?**
+#### &nbsp;&nbsp;&nbsp; Internet access has grown significantly and in December 2018 a report from the International Telecommunications Union (ITU)^3^ indicated that about 51.2% of the world's population was connected to the Internet, surpassing the 50% milestone expected for May 2019^4^ only. With the popularization of mobile devices and the decrease in the costs of network access, more services are now offered online, including public services. E-government, according to Lau and his coauthors (2008), “is the process of connecting citizens digitally to their government in order that they might access information and services offered by government agencies”. The implications of e-government are still little explored. Governments have gradually relied on digital technologies to manage and prevent crises, as well as to perform essential functions for the proper functioning of the state. The 2018 UN report on e-government previously mentioned pointed out that the online public services that citizens use the most are  utilities payment, submission of income taxes and registration of new businesses. This new dynamic also alters the distribution of power and, especially, the interaction between government and the governed.
+#### &nbsp;&nbsp;&nbsp; Estonia and Iceland^5^ are countries that have gained prominence in the literature about digital government initiatives. In Estonia, for example, citizens must have a digital identity that allows them to access several services, government agencies are required to accept digital signatures and most public services include at least one step through digital platforms (KALVET, 2012). This digital ID has also allowed the government to hold elections through e-voting, implemented since 2005 (ALVAREZ, HALL & TRECHSEL, 2009). The country is also one of the recordists in online tax declaration, as early as 2008 about 90% of its citizens did so through the government's own online platform. Also, Estonia was one of the first countries to implement mobile phone location resources when a call to emergency services was made, in order to respond faster to these situations.
+#### &nbsp;&nbsp;&nbsp; In the United States, a long-known tool that works as an effective response to emergencies is the AMBER^6^ Alert, a service that uses information and communication technologies to send text messages to mobile phones and electronic devices in general with warnings about child abduction cases. According to information provided by the Department of Justice of the United States, until 2013 approximately 602 abducted children were rescued because of this service^7^. In Brazil, official documents can now be issued and presented online, such as driver’s licenses and voter registration cards. Uruguay is another example of a country that is thriving in the e-government race, with an ambitious agenda^8^ to accomplish a “sustainable and inclusive digital transformation”.
+#### &nbsp;&nbsp;&nbsp; The cases previously presented discussed the implications of e-government initiatives in democratic countries; it is also important, however, to analyze these processes in “not-so-democratic” states. Russia, for example, “approved the Strategy of the development of the Information Society^9^" in 2008 and built, in 2009, its Government Services Web Portal as a way to “reduce administrative barriers for citizens and the need to personally visit state institutions^10^”. According to Zherebtsov (2019), the outcomes attained with these efforts are noticeable, especially with the fast rise Russia is experimenting in several indexes that measure e-government initiatives, but “the adoption of higher standards of openness and accountability” are essential in order to build a government capable of responding to its citizens’ demands. Bahrain is another state that has also developed a “National Telecommunications Plans” to improve telecommunications infrastructure, strengthen human capital and become capable of digitize public services, making them more effective.  
+
+
+## **2.	LITERATURE REVIEW**   
+#### &nbsp;&nbsp;&nbsp; In the discussion about the relationship between democracy and technology it is common to find conflicting information. While examples such as Estonia and Iceland - the latter became a case study when built a new constitution in 2011 with direct citizen participation through social networks - are observed, authors point out that populist practices gain traction through these same platforms and affect the “quality” of democratic regimes. It is speculated that half of Donald Trump's campaign budget was directed to digital media and Persily (2017) affirms that in the United States, “the premium placed on virality of messages, the threat to accountability posed by unrestrained anonymity, and the undercutting of sovereignty presented by an open Internet pose novel challenges for democracy”. This conjuncture of the North American elections could also be observed in numerous countries within different continents, from Brazil to India, from Italy to Nigeria.
+#### &nbsp;&nbsp;&nbsp; Other questions such as “will technology nourish or undermine democratic institutions?” Or “is technological growth likely to support or corrupt freedom?” (Barber, 1998) are also central to this discussion. Bezerra, Schneider and Saldanha (2013) argue that there are two sides to this debate: a more optimistic one argues that the “decentralized nature” of these new processes presents a “democratizing potential”; and another that exposes the “dark side" of these platforms, which is the vulnerability and consequent possibility to “identify, spy and eliminate competitors or undesirables” that some states and large corporations possess. In Bauman's (2014) viewpoint, for example, emerging surveillance policies, such as using big data to identify suspicious behavior patterns, tend to radically transform - for the worse - the definition of the terms security and democracy, as well as the relationship between them. He also points that events such as the one involving the US National Security Agency (NSA) - when data leaked by Edward Snowden exposed espionage practices - make clear the urgency to reformulate the traditional understanding of the democratic system based on the new dynamics brought by these technologies.
+#### &nbsp;&nbsp;&nbsp; Tucker, Theocharis, Roberts, and Barbera (2018) dedicate attention to the influence of social networks on democratic regimes and affirm that these tools “can be useful to pro-democratic voices in democracies and undemocratic voices in autocracies”. The authors state that undemocratic forces often use these strategies as a way of maintaining or acquiring power, thus undermining the “liberating” and inclusive potential that technologies present. An example is the well-known “Great Firewall of China^11^”, an allusion to the Great Wall of China, which protects its networks from contents that are sensitive to the government, censors a number of applications (Facebook and Google, for example) and is able to monitor its users’ “digital footprint”. These policies are justified by the government as actions aimed at the maintaining social order, fostering innovation and guaranteeing national security. 
+#### &nbsp;&nbsp;&nbsp; According to Freedom House data (2018), China is the country with the lowest Freedom on the Net score among 65 states surveyed. Iran, with the second worst score in this indicator, is also accused of restricting internet use in the country, a policy that has been called "Halal Internet". Moreover, Freedom House report affirms that China “took steps to propagate its model abroad by conducting large-scale trainings of foreign officials, providing technology to authoritarian governments, and demanding that international companies abide by its content regulations” within or outside of the country. The report also states that these actions “present threat to the future of the open internet and prospects for greater democracy around the globe”.
+#### &nbsp;&nbsp;&nbsp; More favorable predictions are presented by Noveck (2010, p.17), who states that 
+
+\singlespacing
+
+> by taking advantage of technology's cost saving, hierarchies can be transformed into collaborative knowledge ecosystems and radically change the culture of government from one of centralized expertise to one in which the public and private sector - organizations and individuals - solve social problems collectively.
+
+\onehalfspacing
+
+#### Authors who look at technologies as tools for strengthening the democratic system claim that these new platforms allow - or have the potential to generate - greater citizen participation in public life and greater engagement with the policy-making process. Furthermore, according to Andersen (2009), the use of information and communication technologies to provide services by governments helps tackle corruption, as these processes reduce contact between citizens and corrupt public servers and increase the transparency of state actions. This argument is also found in the Global Corruption Report (2003), a document produced by Transparency International, which indicates that the chances of implementing arbitrary policies decrease when transaction data is stored, allowing citizens and corporations to question decisions made by the government and improving accountability processes. In addition, Clift (2004) affirms that these technologies have the power to create responsive democratic systems that represent the will of their citizens more accurately and effectively.
+#### &nbsp;&nbsp;&nbsp; It is necessary, however, to mention a point made in the Global Information Technology Report published by the World Economic Forum and the European Institute of Business Administration (INSEAD) in 2016, which states that there is a growing and worrying gap between ICTs usage by individuals and its use by the public sector. It claims that governments can devote greater efforts to develop or invest in innovative digital solutions capable of engendering social impact. Moreover, for Nocetti (2015, p. 1) 
+
+\singlespacing
+
+> governments are struggling to keep up with the pace of technological change, with technology evolving faster than law-making efforts; this disparity is calling into question the very nature of the Westphalian nation-state and its capacity to adapt to current challenges, leading to a profound reconfiguration of government-to-government and government-to-citizen relationships in the twenty-first century.
+
+\onehalfspacing
+
+## **3.	THEORY**
+#### &nbsp;&nbsp;&nbsp; Although the literature review developed in the previous topic presents paradoxical conceptions about the relation between democracy and technology - there are both utopian and dystopian predictions; extreme and moderate - the sheer amount of discussion about this phenomenon makes it clear that this is indeed a necessary debate for understanding the responsibility and roles that governments and citizens will assume in the near future in any political system. The present article therefore seeks to analyze whether “more democracy” influences the capacity, will and structure from governments to offer public services through electronic platforms. Although there are significant limitations on the definition of the term e-government, it is common in the literature to associate the implementation of this process with greater transparency, lower levels of corruption and empowerment of citizens.
+#### &nbsp;&nbsp;&nbsp; A report produced by the United Nations Department of Economic and Social Affairs (UNDESA) observes a negative correlation between the use of digital tools and social exclusion. Another study on the level of e-government development of United Nations member states, pointed that a positive correlation was spotted between e-government and gross domestic product (GDP) _per capita_. It states that richer countries invest more in infrastructure and information technology and, therefore, possess greater conditions to develop and execute electronic government strategies. While countries like Denmark, Sweden, Estonia and Canada are fighting to provide internet access to a small percentage of the population that remains disconnected – in 2017, according to data provided by The World Bank, approximately 97% of Danish citizens had access to the internet, 96% of Swedish, 88% of Estonians and 93% of Canadians -, others like El Salvador, Iraq or Bolivia are struggling to reach the 50% milestone^12^.   
+#### &nbsp;&nbsp;&nbsp; The research developed in this article aims to follow the previously mentioned examples, but this time, from an institutional perspective. In other words, empirical evidence will be analyzed to better understand the relationship between e-government and democracy. This article seeks to identify whether there are any patterns - or even important exceptions - relevant to the discussion presented. The measures used for democracy and e-government were the Democracy Index and the E-Government Development Index, respectively – they will be detailed in the next section. These indexes employ a holistic approach to both concepts, instead of considering democracy and electronic government a dichotomous process, it takes into consideration several indicators to create a spectrum: a country can be more, or less, democratic and it can also provide better, or worse, digital public services when compared to others.
+#### &nbsp;&nbsp;&nbsp; These measures enable the analysis of the effect that democracy “level” exerts over e-government development “level”. The first hypothesis presented, therefore, is that more democratic countries will present higher e-government development scores (**H1**). As mentioned previously, digital services provided by governments are frequently associated with potential increases in transparency, accountability and citizen participation; concepts that are directly linked to democratic ideals.  Different continents have different political, cultural and economic institutions and backgrounds. In the Asian continent, for example, approximately 31% of its countries are considered democracies – according to the data presented by the Democracy Index-, while in the American and European continent, this percentage goes up to 69% and 71%, respectively. The second hypothesis, which is an extension of the first, addresses this issue: if the relation between democracy and e-government scores for each continent is different, more democratic continents will present stronger effects of DemIndex on EGDI (**H2**). Finally, the third hypothesis analyzes if the variation of democracy is related to the variation in the e-government index (**H3**). 
+#### &nbsp;&nbsp;&nbsp; Even though the latter can be a problematic assumption, since different patterns are observed in democracy and e-government levels (for the first, a decrease in the overall quality of democratic systems was reported by institutions such as the Freedom House, the Economist Intelligence Unit and Varieties of Democracy; while for the second, it is noticeable that governments are putting more efforts in digital initiatives and, therefore, a growth trend is in progress) and there are alson other factors that don’t affect simultaneously both phenomena; this analysis can provide some valuable insights about the behavior of specific groups or individual countries through time.    
+
+
+## 4.  RESEARCH DESIGN AND DATA:
+#### &nbsp;&nbsp;&nbsp; Data were used on 157^13^ countries for their readiness and capability to implement e-governance systems, their “level” of democracy and gross domestic product (GDP) _per capita_. The objective of this paper, as discussed in the previous topic, is to analyze whether the level of democracy influences a state's ability to provide electronic services. GDP _per capita_ is used as a control variable, as empirical evidence (detailed in section 4.3) indicates that this factor is related to a country's level of e-government development (the dependent variable). The continent was also used as an independent variable to consider demographic, cultural and economic differences.
+
+
+## **4.1.	E-GOVERNMENT**
+#### &nbsp;&nbsp;&nbsp; To measure the implementation of e-government, it was used the E-Government Development Index (EGDI). This index measures a state's use of information and communication technologies (ICTs) for the provision of public services. EGDI captures three dimensions: the quality of online services, telecommunication infrastructure and human capital of a country. The higher the standards presented by the states for these indicators, the higher their scores will be. The index has been published since 2011 by the United Nations to encourage countries to adopt effective processes that contribute to the achievement of the Sustainable Development Goals (SDGs). The EGDI is obtained by weighting the average of three other indexes and according to the United Nations E-Government Development Index (2018, p. 20): 
+
+\singlespacing
+
+> One-third is derived from a Telecommunications Infrastructure Index (TII) based on data provided by the International Telecommunications Union (ITU), one-third from a Human Capital Index (HCI) based on data provided by the United Nations Educational, Scientific and Cultural Organization (UNESCO), and one-third from the Online Service Index (OSI) based on data collected from an independent survey questionnaire, conducted by UNDESA^14^, which assesses the national online presence for all 193 United Nations Member States. The survey questionnaire assesses several features related to online service delivery, including whole-of-government approaches, open government data, e-participation, multi-channel service delivery, mobile services, usage uptake, digital divide as well as innovative partnerships through the use of ICTs.
+
+\onehalfspacing
+
+#### &nbsp;&nbsp;&nbsp; The E-Government Development Index assumes values between 0 and 1 and the countries analyzed are divided by levels: very high EGDI, for scores between 0.75 and 1; high EGDI, between 0.5 and 0.75; medium EGDI, between 0.25 and 0.5; and low EGDI, for scores lower  than 0.25. The report released in 2018 displays data for 193 countries, which presented an average EGDI score of 0.55. Denmark got the highest score (0.915), while Somalia the lowest (0.057) and Brazil is the 44th, with EGDI of 0.733. It is necessary to emphasize that this index does not represent an absolute measure, that is, the scores are defined according to the score reached by one country in relation to the others. Although EGDI data is available for 193 countries, only 157 observations matched the available data for the other variables included, therefore, 36 countries were excluded from the original database. EGDI is used in this paper as the dependent variable.
+
+
+## **4.2.	DEMOCRACY** 
+#### &nbsp;&nbsp;&nbsp; To measure a country's “level” of democracy, it was used the Democracy Index (2018) developed by The Economist Intelligence Unit (EIU). This index is obtained from the score achieved - for each of the 167 countries analyzed - on 60 indicators, divided into five categories: “electoral process and pluralism; civil liberties; the functioning of government; political participation; and political culture”. There are limitations that are acknowledged in the report, such as the lack of consensus on the conceptualization of democracy. The EIU claims that this index, instead of classifying democracy as a dichotomous process - a country being democratic or not -, presents a new approach based on a continuous scale that represents the possibility of variation in the degrees (or levels) of democracy^15^.
+#### &nbsp;&nbsp;&nbsp; This index assumes values between 0 and 10 and is a simple arithmetic mean of the scores achieved by countries in the indicators within each of the 5 categories previously mentioned. A state is considered a “full democracy” when it reaches a score above 8; a “flawed democracy” with a score greater than 6 and less than or equal to 8; “hybrid regime” with a score greater than 4 and less than or equal to 6; “authoritarian regime” for scores less than or equal to 4. In 2018 the average score of the 167 countries observed was 5.48, with 20 countries considered “full democracies”, 55 “flawed democracies”, 39 “hybrid regimes” and 53 “authoritarian regimes”. Brazil obtained a score of 6.97, Norway assumes the leading position in the report released in 2018 with a score of 9.87, while North Korea appears in last place with a score of 1.08. As stated before, only 157 countries matched the data from the other variables, therefore, for this index, 10 countries were excluded from the original source. In the dataset used, 46 observation are from "authoritarian regimes", 53 from "flawed democracies", 20 "full democracies" and 38 from "hybrid regimes". 
+
+
+## **4.3.	GROSS DOMESTIC PRODUCT PER CAPITA**
+#### &nbsp;&nbsp;&nbsp; For the GDP _per capita_, nominal GDP _per capita_ data made available by the World Bank website, measured in US dollars for the year of 2018^16^, was used. This independent variable was added as control, since several studies relate the economic capacity of a country to its e-government development. The 2012, 2014, 2016 and 2018^17^ editions of the United Nations E-Government Survey, for example, all dedicate especial attention to the influence that the economic capacity of a country exerts over its electronic government initiatives and identify a positive correlation between GDP and EGDI. In this research, it was used the _per capita_ measure to also account for the population of the countries analyzed.
+#### &nbsp;&nbsp;&nbsp; In the database created, this variable was transformed in log for two main reasons: first, to normalize its distribution since there are few countries with high GDP _per capita_ and many with low. For the 157 countries in the sample, 121 presented a GDP _per capita_ lower than 20,000 US dollars, while only 36 presented a value between 20,000 and 114,500. From these 36, approximately 89%^18^ presented a “very high” EGDI level; as for the other 121, this percentage drops to 5%. The second reason was to approximate the values from the variables used in the models developed; as the dependent variable goes from 0 to 1 and the other independent variable (Democracy Index) assumes values between 0 and 10, a log transformation was necessary to approximate those measures. 
+
+
+## **5.	RESULTS**               
+#### &nbsp;&nbsp;&nbsp; With the data obtained from the databases mentioned in the previous topic, it is possible to realize a preliminary exploratory analysis. First of all, a correlation coefficient of 0.665 between EGDI and DemIndex measures was noted. As shown in Figure 1 (a scatter plot with Democracy Index on the _x-axis_ and EGDI score on the _y-axis_) the relation between Democracy Index and EGDI scores appears to be linear and countries with high EGDI scores tend to have high Democracy Index scores as well. From the 20 “full democracies^19^” disclosed in the latter index, only two (Costa Rica and Mauritius) didn't present “very high” EDGI level. It is observable, however, exceptions such as the United Arab Emirates, Bahrain, Russia, Belarus and Kazakhstan, which belong to the group with “very high” EGDI but are classified as “authoritarian regimes”. This observation reinforces the hypothesis presented that it is possible that different patterns may emerge depending on the demographic region in which the country is inserted.
+#### &nbsp;&nbsp;&nbsp; In a first bivariate regression model, with the response variable EGDI and the independent variable Democracy Index (DemIndex), a coefficient of 0.066 is 
+```{r fig.width=10, fig.height=12, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE}
+plot1 <- ggplot(data = baseDemEgov, aes(y = EGDI, x = DemIndex, color = EGDILEVEL, label = Country)) +
+  ggtitle(label = "FIGURE 1", subtitle = "DemIndex & EGDI Scatterplot")+
+  geom_point() +
+  geom_text_repel(aes(x = DemIndex, y = EGDI,label = Country))+
+  theme_replace()
+plot1 + scale_color_manual(values = c("#4682B4", "#3CB371", "#DAA520", "#E9967A"))
+```
+
+\pagebreak
+
+#### obtained, with p-value <0.001, R^2^ of 0.44 and RSE of 0.161, as can be observed in table 1 and figure 2 below.
+#### &nbsp;&nbsp;&nbsp; This result points out that for an additional unit in the Democracy Index, an increase of approximately 0.066 in the E-government Development Index is expected; and that a country's “level” of democracy explains 0.44 of the variation in their capacity and readiness to offer electronic public services. This result, therefore, endorses the first hypothesis (**H1**) that more democratic countries will present, frequently, higher EGDI scores, since the analysis showed that there is a positive relation among these factors. It is possible to observe that some countries present extreme values (or are considered outliers): Bahrain, with DemIndex equal to 2.71 and EGDI 0.81; Belarus, 3.13 and 0.76; Kazakhstan, 2.94 and 0.76; Russia, 2.9 and 0.80; Saudi Arabia, 1.93 and 0.71; and finally, United Arab Emirates, which has a score of 2.76 on the Democracy Index and 0.829 on the EGDI.
+
+```{r fig.pos='H', out.width="90%", dpi=200, echo=FALSE, message=FALSE, warning=FALSE}
+knitr::include_graphics('C:/Users/Duda/Desktop/TrabalhoFinalAD/TableReg1.png')
+```
+
+#### &nbsp;&nbsp;&nbsp; Since different regions appear to follow different patterns and GDP also interferes in the “level” of EGDI - as previously discussed - a multiple regression seems more appropriate for the analysis of this relation. Therefore, in a second model, a multiple regression analysis was performed by adding to the bivariate regression the independent variable GDP _per capita_, which will function as a control variable, and an interactive term of the Democracy Index and the continent to which countries belong. In the sample, out of 157 countries, 48 are located on the African continent; 24 on the American continent; 43 on the Asian continent; 38 in the European continent and only 4 in Oceania.
+
+```{r fig.width=5, fig.height=3, fig.align='center', echo=FALSE, message=FALSE, warning=FALSE}
+plot2 <- ggplot(data = baseDemEgov, aes(y = EGDI, x = DemIndex, color = EGDILEVEL)) +
+  ggtitle(label = "FIGURE 2", subtitle = "Bivariate Linear Regression Plot") +
+  geom_point() +
+  theme_replace() +
+  geom_smooth(method = "lm", color = "black", se = T)
+plot2 + scale_color_manual(values = c("#4682B4", "#3CB371", "#DAA520", "#E9967A"))
+```
+
+#### &nbsp;&nbsp;&nbsp; There are 5 continents in the analysis, therefore, 5 regression models are needed. Each of the models has as reference category one continent amongst the 5 analyzed: in the first, the presented coefficients compare the other continents with Africa; in the second, Americas; third, Asia; fourth, Europe; and fifth, Oceania. One of the limitations of this analysis, however, is that data are available for only four - of approximately 14 - Oceanian countries. The five models presented R^2^ of 0.856 and RSE of 0.084. In the five multiple linear regression models, the independent variable GDP _per capita_ presented an estimated coefficient of 0.093, error 0.008 and p-value <0.001. In table 2 and figure 3 it is possible to analyze the regression coefficients of these multivariate models, as well as their graphical representation. Then, in figure 4, the regression lines for each of the continents analyzed, except for Oceania^20^, are displayed.
+
+#### &nbsp;&nbsp;&nbsp; The main issues to be analyzed in the regression table are the coefficients presented for the interactions. In the first model, it is noticeable that compared to the African continent, the coefficient for the interaction between DemIndex and European countries presents a negative value (-0.034), which may indicate that in African countries the effect that the “level” of democracy has on EGDI is stronger than in European countries. The other coefficients for the interactions presented a high standard error, which means that, when considering a 95% confidence interval, the effect can assume either positive, negative or null values, therefore, it is not possible to affirm that such effect exists or its valence. For the second model, with the American continent as the reference category, once again the coefficient for the European continent is negative (-0.37) and significant (p-value < 0.05). The third model – Asia as reference category -, shows a significant and positive coefficient (0.060, p-value < 0.05) for the interaction between DemIndex and the Oceanian continent. This result indicates that the DemIndex has a stronger effect in the EGDI of Oceanian than Asian countries^21^.
+
+```{r out.width="120%", dpi=200, fig.align='center', echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align="center")
+knitr::include_graphics('C:/Users/Duda/Desktop/TrabalhoFinalAD/TableReg2.png')
+
+```
+
+#### &nbsp;&nbsp;&nbsp; In the fourth model – with Europe as the reference category - all of the coefficients for the interactions were positive: for Africa, 0.034; America, 0.037; Asia, 0.023 (though not significant^22^, since its 95% confidence intervals include 0, negative and positive values); and Oceania, 0.083. What is also interesting about this fourth model is that with Europe as the reference category, the coefficient for Democracy Index assumes a negative value and loses its significance, while in the other 4 models it presents positive and significant values (p < 0.05). For the last model – with Oceania as the reference category – all of the coefficients for the interactions assume negative value, suggesting that the effect that the “level” of democracy has on EGDI is stronger in this continent than in the others, although only the interactive terms of Asia and Europe presented a p-value < 0.05.
+#### &nbsp;&nbsp;&nbsp; These results show that it is not possible to reject the null hypothesis for **H2**, as it is notable that for the continent with the highest percentage of democratic countries, Europe, the effect of Democracy Index on EGDI is weaker than in the other four continents analyzed. It may suggest that the “level” of democracy could actually be more significant to influence e-government initiatives in less democratic continents; this observation may indicate that in a continent with a low percentage of democracies, even a slight change in the “level of democracy” may exert an important influence on the state to promote reforms that foster accountability and citizen participation, while on traditionally democratic (or already “very democratic”) continents, changes in levels of democracy are slower and its marginal effect on EGDI are not much prominent. There are two main limitations in this analysis: the first one is that many authoritarian countries lack data, which can turn the analysis biased; the second is that, once again, for Oceania, there are only 4 observations in the sample.
+#### &nbsp;&nbsp;&nbsp; Although results presented for hypotheses **H1** and **H2** suggested that the level of democracy exerts some influence over e-government initiatives, it is also interesting to observe that some countries diverge from this pattern, as for example the ones classified as authoritarian regimes in the Democracy Index with a very high or high EGDI level, that are: Bahrain, Belarus, Kazakhstan, Russia, United Arab Emirates; and Azerbaijan, China, Jordan, Kuwait, Oman, Qatar, Saudi Arabia, Uzbekistan and Vietnam, respectively. All of them, with Belarus as an exception, belong to the Asian continent.  
+
+```{r fig.width=5, fig.height=3.1, fig.align = 'center', echo=FALSE, message=FALSE, warning=FALSE}
+plot3 <- ggplot(data = baseDemEgov, aes(y = EGDI, x = DemIndex:Continent + 
+                                    GDPlog, color = EGDILEVEL)) +
+  ggtitle(label = "FIGURE 3", subtitle = "Multiple Linear Regression Plot") +
+  geom_point() +
+  theme_replace() +
+  geom_smooth(method = "lm", color = "black", se = T)
+plot3 + scale_color_manual(values = c("#4682B4", "#3CB371", "#DAA520", "#E9967A"))
+```
+
+```{r fig.width=9, fig.height=7, fig.align = 'center', echo=FALSE, message=FALSE, warning=FALSE}
+plot4a <- ggplot(data = baseDemEgov, aes(y = EGDI, x = DemIndex:Continent + 
+                                             GDPlog, color = EGDILEVEL)) +
+  ggtitle(label = "FIGURE 4", subtitle = "Multiple Linear Regression Plot Faceted by Continent") +
+  geom_point() +
+  theme_replace() +
+  geom_smooth(method = "lm", color = "black", se = T) +
+  facet_wrap_paginate(~Continent, ncol = 2, nrow = 2, page = 1)
+plot4a + scale_color_manual(values = c("#4682B4", "#3CB371", "#DAA520", "#E9967A"))
+```
+
+\pagebreak
+
+#### &nbsp;&nbsp;&nbsp; Finally, it will be analyzed the variation of the E-Government Development Index along with the Democracy Index over time, controlling for income and population (GDP _per capita_). EGDI has been measured since 2001, DemIndex, however, was first published in 2006. In subsequent years there was no publication of EGDI and only in 2008 data can be found for both indexes; consequently, for this analysis, the final scores (2018) obtained by the countries in the two indexes previously mentioned were subtracted from the initial score (2008). First, it is possible to observe extreme values in the scatter plot of figure 5: the variation in Tunisia's EGDI over the period was 0.2796 and 3.45 for the DemIndex; Russia showed positive variation in the EGDI (0.2849), however, in DemIndex this variation was negative (-1.54); Montenegro followed Russia's trend, with an increase in EGDI (0.2684) and a decline in the Democracy Index (0.69); in the American continent, Nicaragua showed a significant decrease in DemIndex (-2.44) and a slight increase in EGDI (0.0565), while for Uruguay the variation of both indices was positive (0.3 in DemIndex and 0.2213 in EGDI).
+#### &nbsp;&nbsp;&nbsp; Analyzing the scatterplot from figure 5, there doesn’t seem to exist a linear relationship between the variation of Democracy Index and E-Government Development Index. A multiple regression model developed - with the variation of EGDI as the dependent variable and the variation of DemIndex and GDP _per capita_ as predictors - strengthens this observation, since the coefficient obtained for the effect searched is not significant. It is not possible, therefore, to reject the null hypothesis in **H3**; as mentioned in previous sections, these two phenomena appear to follow, indeed, different paths. While only 8 countries presented negative variation in their EGDI score throughout the time analyzed - Equatorial Guinea, Guyana, Lesotho, Madagascar, Malawi, Niger, Norway and Sweden -, 79 had negative values for the variation of the Democracy Index scores. Also, the average variation of the Democracy Index for the 157 in the sample was negative (-0.043), while for the E-Government Development Index was positive (0.109).
+
+\pagebreak
+
+```{r fig.width=10, fig.height=13, echo=FALSE, message=FALSE, warning=FALSE}
+plot5 <- ggplot(data = baseDemEgov, aes(y = DeltaEGDI, x = DeltaDemIndex, color = EGDILEVEL, 
+                                          label = Country))+
+ggtitle(label = "FIGURE 5", subtitle = "DemIndex & EGDI Variation Scatterplot")+
+geom_point()+
+geom_text_repel(aes(x = DeltaDemIndex, y = DeltaEGDI,label = Country))+
+theme_replace()
+plot5 + scale_color_manual(values = c("#4682B4", "#3CB371", "#DAA520", "#E9967A"))
+```
+
+\pagebreak
+
+## **6.	IMPLICATIONS AND CONCLUSIONS:**
+#### &nbsp;&nbsp;&nbsp; The research presented sought to contribute to the discussion about how information and communication technologies are shaping social, political and economic processes. As the access to the internet became cheaper and new tools - such as social networks, open data portals and mobile applications - were developed, a belief in the process of “democratization of information” was frequently mentioned by academics, citizens and governments. _Hacktivism_, digital citizens, _govtechs_ and e-democracy, were terms that gained relevance in the literature; social movements like the Green Revolution in Iran, the Arab Spring and the Occupy Wall Street protests in the United States, gained strength through these digital tools. On the other hand, it also became usual to encounter analogies between the “Information Society” and George Orwell’s 1984, in which a dystopic society in a “totalitarian-hyper-vigilant-omnipresent” state is portrayed. 
+#### &nbsp;&nbsp;&nbsp; This article, therefore, aimed to analyze the relation between democracy and electronic government. The results previously presented suggested that there is a positive relation between these factors, in other words, normally, to each unit added to the Democracy Index score, a raise will also be observed in the E-Government Development Index. It means that the “level” of democracy may, indeed, influence the capacity and availability of electronic services provided by governments. The observed effect – as well as its intensity -, however, was limited to the context where the analyzed countries were inserted. 
+#### &nbsp;&nbsp;&nbsp; While in the European continent this effect wasn’t observed^23^, for Africa, Asia and the Americas it was positive and significant. The implications brought by these results can generate several debates about what are other factors that would encourage countries to keep investing in e-government initiatives, since it was observed that in the European continent, that presents a very high percentage of democratic countries, the marginal effect of the “level” of democracy on e-government initiatives does not work as an incentive (or encouragement) to these countries; also, all of its countries^24^ scored level “high” or “very high” on the E-Government Development Index.
+#### &nbsp;&nbsp;&nbsp; Furthermore, although a pattern that may endorse the idea that e-government initiatives could empower citizens and improve democratic systems was observed, there are important exceptions that are worth mentioning, especially for the Asian continent. A group of countries appear to follow the opposite path, presenting high scores on the electronic government index, while low scores on the democracy index. These findings contribute to stimulate further discussions about the need to comprehend how governments use these technologies; do they burden citizens rather than benefiting them? If that is indeed the case, in what way? If not, what benefits do they bring and how are they applied? Also, it paves the way to the discussion on future implications of institutional arrangements on the development of electronic public services. As stated previously, there is a pattern observed in several democracy indexes showing a decline in democratic “quality” (or level); contemporary researches, therefore, employed alarming headlines, such as “How Democracies Die” (ZIBLATT & LEVITSKY, 2018), “How Much Should We Worry?” (INGLEHART, 2016) or “The Danger of Deconsolidation” (FOA & MOUNK, 2016). As for the E-Government Development Index an ascendant movement is observed, however, according to the UN report on e-government, this trend has been driven, especially, by investments in infrastructure and human capital, and not necessarily by the "participatory" or "democratic" dimensions of this process.      
+#### &nbsp;&nbsp;&nbsp; This discussion, despite incipient, is extremely necessary. The potential that these information and communication technologies have is tremendous and it is shaping the way individuals, corporations and governments behave. A study conducted by the Interamerican Development Bank (IDB)^25^ showed that the average time spent per bureaucratic procedure, such as requesting an identification document or a birth certificate for example, is 5.4 hours for Latin American countries. The study affirms that investment in the digitization of these processes can save up to 40% when compared with the costs of this same service being offered physically. Also, these tools can change the dynamic of the relation between governments and the governed; potentially by making it more responsive and interactive, as the previously mentioned examples of Estonia and Iceland. 
+#### &nbsp;&nbsp;&nbsp; There is still a long path to pursue in understanding the implications, risks and opportunities brought by these ICTs and the way individuals are responding to it. Although the answer for the question presented in the title of this research seems intuitive, the reality is quite different. It is necessary to reflect about the future of the relation between democracy and electronic government: is there a limit for this effect? Is it losing strength? Will it reverse anytime soon? Will autocratic states surpass democratic ones in matters of digitization? These days, the renowned phrase attributed to John F. Kennedy would probably be _forgive your enemies, but never forget their tweets_.        
+
+
+---
+
+
+\pagebreak
+
+
+\singlespacing
+
+\onecolumn
+
+## NOTES:
+
+###### **1** - A study conducted by BBC and Go On UK in the United Kingdom, for example, showed that approximately 21% of its population lacked the necessary skills to perform simple online activities, like sending emails or using a search engine.
+###### **2** - In other words, does e-government depends on the “level” of democracy a state presents to function effectively?
+###### **3** - United Nations Specialized Agency for Information and Communication Technologies.
+###### **4** - Data available at: [https://www.itu.int/en/ITU-D/Statistics/Pages/stat/default.aspx].
+###### **5** - Besides other Nordic countries as Denmark, Sweden and Finland.
+###### **6** - Acronym for “America's Missing: Broadcast Emergency Response”.
+###### **7** - Information available at: [https://www.justice.gov/archives/opa/blog/17-years-amber- \break alerts-result-more-600-rescued-children].
+###### **8** - Named “Agenda Uruguay Digital 2020”, available at: [https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento/politicas-y-gestion/programas/agenda-digital-del-uruguay].
+###### **9** - Available at: [http://economy.gov.ru/en/home/activity/sections/infOrientedSoc/].
+###### **10** - Available at: [https://digital.gov.ru/en/activity/statistic/rating/elektronnoe-pravitelstvo-v-rf/].
+###### **11** - “The ‘Great Firewall’ (...) actually conflates two things: the filtering software installed in the three chokepoints that connect China to the rest of the internet that makes it very difficult for Chinese citizens to see forbidden websites, and the internal filtering and censorship software that automatically deletes suspicious references”. Available at: [https://www.theguardian.com/books/2019/apr/27/the-great-firewall-of-china-by-james-griffiths-review-how-to-control-the-internet].
+###### **12** - Datum available at: [https://databank.worldbank.org/reports.aspx?source=2&series=IT.NET.USER.ZS&country=].
+###### **13** - The list of countries analyzed is available in the methodological appendix.
+###### **14** - United Nations Department of Economic and Social Affairs.
+###### **15** - “Some insist that democracy is, necessarily, a dichotomous concept: a state is either democratic or not. But most measures now appear to adhere to a continuous concept, with the possibility of varying degrees of democracy”.
+###### **16** - Available at: [https://data.worldbank.org/indicator/ny.gdp.pcap.cd].
+###### **17** - Available at: [https://publicadministration.un.org/egovkb/Portals/egovkb/Documents/un/2018-Survey/E-Government%20Survey%202018_FINAL%20for%20web.pdf], p. 94.
+###### **18** - The exceptions were Kuwait, Czech Republic, Qatar and Saudi Arabia. 
+###### **19** - Norway, Iceland, Sweden, New Zealand, Denmark, Canada, Ireland, Finland, Australia, Switzerland, Netherlands, Luxembourg, Germany, United Kingdom, Uruguay, Austria, Mauritius, Malta, Spain and Costa Rica.
+###### **20** - The sample with 4 observations was not enough to estimate an adequate regression line.
+###### **21** - As stated before, it is important to highlight that all the analysis presented for Oceania may be problematic due to the small number of observations available to this continent.
+###### **22** - “Not significant” means that this research couldn’t observe if this effect exists; it doesn’t necessarily mean that it is inexistent, but that it needs further analysis.    
+###### **23** - Which doesn’t mean that it doesn’t exist, but that the results obtained from the sample used weren’t capable of point to the rejection of the null hypothesis.
+###### **24** - The 38 analyzed in this paperwork
+###### **25** - _Wait No More: Citizens, Red Tape, and Digital Government_, 2018
+
+
+\pagebreak
+
+
+## **REFERENCES:**
+
+###### Acemoglu, D., Naidu, S., Restrepo, P., & Robinson, J. A. (2019). _Democracy Does Cause Growth_, Journal of Political Economy, 127(1), 47-100.
+###### Alvarez, R., Hall, T., & Trechsel, A. (2009). _Internet Voting in Comparative Perspective: The Case of Estonia_. PS: Political Science & Politics, 42(3), 497-505.
+###### Andersen, T. B. (2009). _E-Government as an anti-corruption strategy_. Information Economics and Policy, 21(3), 201–210.
+###### Barber, B. (1998). _Three Scenarios for the Future of Technology and Strong Democracy_. Political Science Quarterly, 113(4), 573–589.
+###### Cooley, A. (2017). _Examining Development of E-Government in Russia and China: A Comparative Approach_. International Journal of Public Administration, 41(11), 899–908.
+###### Foa, R., & Mounk, Y. (2016). _The Danger of Deconsolidation: The Democratic Disconnect_. Journal of Democracy, (3), 5-17.
+###### Goldsmith, S., & Eggers, W. (2004). _Governing by Network: The New Shape of The Public Sector_. Washington, D.C: Brookings Institution Press.
+###### Inglehart, R. F. (2016). _The Danger of Deconsolidation: How Much Should We Worry?_ Journal of Democracy 27(3), 18-23. Johns Hopkins University Press. Retrieved August 19, 2019, from Project MUSE database.
+###### Kalvet, T. (2012). _Innovation: a Factor Explaining e-Government Success in Estonia_. Electronic Government, 9(2), 142-157.
+###### Kitsing, M. (2011). _Success Without Strategy: E-Government Development in Estonia_. Policy & Internet, 3(1), 86–106.
+###### Levitsky, S., & Ziblatt, D. (2018). _How Democracies Die_. New York, Crown Press. 
+###### Mossberger, K., Tolbert, C., & McNeal, R. (2007). Digital Citizenship: The Internet, Society and Participation. Cambridge, MA: MIT Press.
+###### Narayanan, D. (2019). _Technology and political will can create better governance. The Economist_, website.
+###### Nocetti, J. (2015). _Contest and Conquest: Russia and Global Internet Governance_. International Affairs, 91(1), 111–130.
+###### Noveck, B. (2010). _Wiki Government: How Technology Can Make Government Better, Democracy Stronger, and Citizens More Powerful_. Washington, D.C., Brookings Institution Press.
+###### Persily, N. (2017). _The 2016 U.S. Election: Can Democracy Survive the Internet?_ Journal of Democracy, 2, 63-76.
+###### Przeworski, A. & Limongi, F. (1993). _Political Regimes and Economic Growth_. The Journal of Economic Perspectives, 7(3), 51-69.
+###### Schwab, K. (2017). _The Fourth Industrial Revolution_. Crown Publishing Group, New York.
+###### Roseth, B., Reyes, A., Farias, P., Porrúa, M., Villalba, H., Acevedo, S., Peña, N., Estevez, E., Lejarraga, S., & Fillotrani, P. (2018). _Wait No More: Citizens, Red Tape, and Digital Government_. Interamerican Development Bank, website.
+###### Silcock, R. (2001). _What is E-government_. Parliamentary Affairs, 54(1), 88–101.
+###### Tat-Kei Ho, A. (2002). _Reinventing Local Governments and the E-Government Initiative_. Public Administration Review, 62(4), 434–444. 
+
+
+\pagebreak
+
+
+## APPENDIX:
+
+#### The database constructed has 15 variables and 157 observations.
+#### Variables: 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+names(baseDemEgov)
+```
+
+#### Observations:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+baseDemEgov$Country
+```
+
+\pagebreak
+
+#### Descriptive Statistics:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+summary(baseDemEgov)
+```
+###### From these descriptive statistics it is observable that the average Democracy Index, from the 157 countries in the sample for the year of 2018, was 5.606 (Congo presented the lowest GDP and Norway the highest); the average EGDI score was 0.566 (Niger with the lowest EGDI and Denmark with the highest); and average per capita GPD, 14,758.9 (Burundi with the lowest per capita GPD, and Luxemburg with the highest). The average variation of EGDI scores, between 2008 and 2018 was 0.109; of DemIndex, -0.043 and GDP per capita (log), 0.199.
+###### In the dataset, there are 46 observation from "authoritarian regimes", 53 from "flawed democracies", 20 "full democracies" and 38 "hybrid regimes". There are 38 countries with a very high level of EGDI, 55 with high level, 52 with middle level and 12 with low level.  
+
+\pagebreak
+
+
+#### Democratic countries in each continent:
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+target <- c("Full democracy", "Flawed democracy")
+```
+
+##### Africa:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ContAfrica <- filter(baseDemEgov, Continent == "Africa")
+ContAfrica <- filter(ContAfrica, DemLevel %in% target) 
+ContAfrica$Country
+```
+
+##### America:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ContAmerica <- filter(baseDemEgov, Continent == "America")
+ContAmerica <- filter(ContAmerica, DemLevel %in% target)
+ContAmerica$Country
+```
+
+##### Asia:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ContAsia <- filter(baseDemEgov, Continent == "Asia")
+ContAsia <- filter(ContAsia, DemLevel %in% target)
+ContAsia$Country
+```
+
+##### Europe:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ContEurope <- filter(baseDemEgov, Continent == "Europe")
+ContEurope <- filter(ContEurope, DemLevel %in% target)
+ContEurope$Country
+```
+
+##### Oceania:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ContOceania <- filter(baseDemEgov, Continent == "Oceania")
+ContOceania <- filter(ContOceania, DemLevel %in% target)
+ContOceania$Country
+```
+
+
+---
+
+
+\pagebreak
+
+
+#### Bivariate Regression Diagnostics:
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+mod <- lm(EGDI ~ DemIndex, data = baseDemEgov)
+summary(mod)
+```
+
+##### Residual analysis plot:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+residreg <- resid(mod)
+ggplot(data = baseDemEgov, aes(y = residreg, x = DemIndex)) +
+  geom_point(color = "#4682B4") +
+  theme_replace() +
+  geom_smooth(method="lm", color = "black", se = F) +
+  labs(title = "Residual Analysis", y = "Residuals", x = "DemIndex")
+```
+
+##### Outliers (or extrem values) in the bivariate regression:
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+which(rstudent(mod) > 2)
+```
+###### Bahrain, Belarus, Kazakhstan, Russian Federation, Saudi Arabia and United Arab Emirates.
+
+
+\pagebreak
+
+
+#### Variable Transformation (GDP to log):
+##### Density of the independent variable GDP _per capita_, before and after its transformation in log:
+###### Before:
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=3, fig.width=5}
+hist(baseDemEgov$GDP, freq = F, xlab = "GDP PC", main = "Distribution GDP PC")
+lines(density(baseDemEgov$GDP), col = "#4682B4", lwd = 4)
+```
+
+###### After:
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align= 'center', fig.height=3, fig.width=5}
+hist(baseDemEgov$GDPlog, freq = F, xlab = "GDP PC log", main = "Distribution GDP PC log")
+lines(density(baseDemEgov$GDPlog), col = "#4682B4", lwd = 4)
+```
+
+
+\pagebreak
+
+
+#### Multiple Linear Regression Diagnostics:
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+## Model 1:
+baseDemEgov$Continent <- relevel(baseDemEgov$Continent, ref = "Africa")
+mod1 <- lm(EGDI ~ DemIndex*Continent + GDPlog, data = baseDemEgov)
+summary(mod1)
+
+## Model 2:
+baseDemEgov$Continent <- relevel(baseDemEgov$Continent, ref = "America")
+mod2 <- lm(EGDI ~ DemIndex*Continent + GDPlog, data = baseDemEgov)
+summary(mod2)
+
+## Model 3:
+baseDemEgov$Continent <- relevel(baseDemEgov$Continent, ref = "Asia")
+mod3 <- lm(EGDI ~ DemIndex*Continent + GDPlog, data = baseDemEgov)
+summary(mod3)
+
+## Model 4:
+baseDemEgov$Continent <- relevel(baseDemEgov$Continent, ref = "Europe")
+mod4 <- lm(EGDI ~ DemIndex*Continent + GDPlog, data = baseDemEgov)
+summary(mod4)
+
+## Model 5:
+baseDemEgov$Continent <- relevel(baseDemEgov$Continent, ref = "Oceania")
+mod5 <- lm(EGDI ~ DemIndex*Continent + GDPlog, data = baseDemEgov)
+summary(mod5)
+```
+
+##### Confidence Intervals:
+
+###### Model 1:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+confint(mod1)
+```
+
+###### Model 2:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+confint(mod2)
+```
+
+###### Model 3:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+confint(mod3)
+```
+
+###### Model 4: 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+confint(mod4)
+```
+
+###### Model 5:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+confint(mod5)
+```
+
+
+\pagebreak
+
+
+##### Coefficients plot for Each Model (without the intercept):
+
+###### Model 1:
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=3.5, fig.width=5.25}
+coefplot.lm(mod1, col="#4682B4",intercept=F)
+```
+
+###### Model 2:
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=3.5, fig.width=5.25}
+coefplot.lm(mod2, col="#4682B4",intercept=F)
+```
+
+###### Model 3:
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=3.5, fig.width=5.25}
+coefplot.lm(mod3, col="#4682B4",intercept=F)
+```
+
+###### Model 4:
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=3.5, fig.width=5.25}
+coefplot.lm(mod4, col="#4682B4",intercept=F)
+```
+
+###### Model 5:
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=3.5, fig.width=5.25}
+coefplot.lm(mod5, col="#4682B4",intercept=F)
+```
+
+
+\pagebreak
+
+
+##### Residual analysis plot:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+residmod1 <- resid(mod1)
+ggplot(data = baseDemEgov, aes(y = residmod1, x = DemIndex:Continent + GDPlog)) +
+  geom_point(color = "#4682B4") +
+  theme_replace() +
+  geom_smooth(method="lm", color = "black", se = F) +
+  labs(title = "Residual Analysis", y = "Residuals", x = "GDP, DemIndex, Continent")
+```
+
+##### Residual Normality Test:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+shapiro.test(mod1$residuals)
+```
+###### The test doesn't indicate the rejection of the null hypothesis of residuals normality.
+
+
+\pagebreak
+
+
+##### Residual Distribution Plot: 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+sresidmod1 <- studres(mod1) 
+hist(sresidmod1, freq=FALSE, 
+     main="Distribution of Studentized Residuals")
+xfit1 <- seq(min(sresidmod1),max(sresidmod1),length=40) 
+yfit1 <- dnorm(xfit1) 
+lines(xfit1, yfit1, col = "#4682B4", lwd = 4)
+```
+
+##### Outliers:
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+which(rstudent(mod1) > 2)
+```
+###### Burundi, Russia, Rwanda & Uzbekistan.
+
+##### Multicollinearity tests:
+
+###### Model 1:
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+vif(mod1)
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+sqrt(vif(mod1)) > 2
+```
+
+###### Model 2:
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+vif(mod2)
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+sqrt(vif(mod2)) > 2
+```
+
+###### Model 3:
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+vif(mod3)
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+sqrt(vif(mod3)) > 2
+```
+
+###### Model 4:
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+vif(mod4)
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+sqrt(vif(mod4)) > 2
+```
+
+###### Model 5:
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+vif(mod5)
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+sqrt(vif(mod5)) > 2
+```
+###### As the independent variables used in the model were 'GDPlog' and 'DemIndex', those are the results that should be observed. For model 2, with America as the reference category, only a moderate multicollinearity is spotted. Meanwhile, for model 5, with Oceania as the reference category, a severe multicollinearity is observed, which can indicate a problem with the coefficients and p-values obtained for this specific model; as stated before, the low number of observations for this continent affects the analysis.     
+
+##### Homoscedasticity Test:
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+bptest(baseDemEgov$DemIndex ~ baseDemEgov$EGDI + baseDemEgov$GDPlog)
+```
+###### The test doesn't indicate the rejection of the null hypothesis for homoscedasticity.
+
+\pagebreak
+
+#### Multiple Linear Regression, Variation of EGDI and DemIndex, controlled for the variation of GDP:
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+reg3 <- lm(DeltaEGDI ~ DeltaDemIndex + DeltaGDPlog, data = baseDemEgov)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+stargazer(reg3, type = "text", title="Regression Results", align=TRUE,
+dep.var.labels=c("E-Government Development Index Delta"),
+covariate.labels=c("Democracy Index Delta", "GDP Delta (log)"), omit.stat=c("LL","ser","f"),
+no.space=TRUE)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
