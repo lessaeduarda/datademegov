@@ -1,16 +1,19 @@
-require(shiny)
-require(ggplot2)
-require(ggrepel)
-require(magrittr)
-require(dplyr)
-require(plotly)
+# Require or instal packages:
+if(require(shiny)==F)install.packages('shiny');require(shiny)
+if(require(ggplot2)==F)install.packages('ggplot2');require(ggplot2)
+if(require(ggrepel)==F)install.packages('ggrepel');require(ggrepel)
+if(require(magrittr)==F)install.packages('magrittr');require(magrittr)
+if(require(dplyr)==F)install.packages('dplyr');require(dplyr)
+if(require(plotly)==F)install.packages('plotly');require(plotly)
+if(require(shinythemes)==F)install.packages('shinythemes');require(shinythemes)
 
+# !!! Set your own working directory and load database:
 setwd("C:/Users/Duda/Desktop/TrabalhoFinalAD")
 load("mariaeduarda-lessa-ad-ufpe-2019.Rda")
 
 shinyApp(
   ui <- shinyUI(fluidPage(
-    fluidPage(
+    fluidPage(theme = shinytheme("united"),
       titlePanel("E-Government Development Index & Democracy Index"),
       sidebarLayout(
         sidebarPanel(
@@ -36,9 +39,11 @@ shinyApp(
       output$plot1 <- renderPlotly({
         p <- ggplot(data = filtered_data(), aes(y = EGDI, x = DemIndex, 
                                             color = EGDILEVEL,label = Country)) +
-          theme_replace()+
-          scale_color_manual(values = c("#4682B4", "#3CB371", "#DAA520", "#E9967A"))
-        p <- p + geom_point()
+          theme_replace()
+        p <- p + geom_point()+
+          scale_color_manual(values = c("Very High EGDI" = "#4682B4", 
+                                          "High EGDI" = "#3CB371", 
+                                        "Middle EGDI" = "#DAA520", "Low EGDI" = "#E9967A"))
         
         ggplotly(p)
       })
