@@ -15,18 +15,24 @@ shinyApp(
       sidebarLayout(
         sidebarPanel(
           selectInput(inputId = "y",
-                      label = "Choose Democracy Index Level:",
+                      label = "Choose Democracy Index Level",
                       choices = levels(baseDemEgov$DemLevel),
-                      select = "Authoritarian")),
+                      selected = "Authoritarian"),
+        selectInput(inputId = "x",
+                    label = "Choose Continent",
+                    choices = levels(baseDemEgov$Continent),
+                    selected = "Africa")),
                   mainPanel(plotlyOutput("plot1"))
-        )
-  ))),
+        ))
+      )
+    ),
   
   server <- shinyServer(
     function(input, output) {
       filtered_data <- reactive({
-        filter(baseDemEgov, DemLevel == input$y)
-                 })
+        filter(baseDemEgov, DemLevel == input$y,
+               Continent == input$x)
+                         })
       output$plot1 <- renderPlotly({
         p <- ggplot(data = filtered_data(), aes(y = EGDI, x = DemIndex, 
                                             color = EGDILEVEL,label = Country)) +
