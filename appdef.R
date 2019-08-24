@@ -17,7 +17,7 @@ shinyApp(
           selectInput(inputId = "y",
                       label = "Choose Democracy Index Level:",
                       choices = levels(baseDemEgov$DemLevel),
-                      select = "")),
+                      select = "Authoritarian")),
                   mainPanel(plotlyOutput("plot1"))
         )
   ))),
