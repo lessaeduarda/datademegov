@@ -7,7 +7,7 @@ if(require(dplyr)==F)install.packages('dplyr');require(dplyr)
 if(require(plotly)==F)install.packages('plotly');require(plotly)
 if(require(shinythemes)==F)install.packages('shinythemes');require(shinythemes)
 
-# !!! Set your own working directory and load database:
+# !!! Set your own working directory and load database !!!
 setwd("C:/Users/Duda/Desktop/TrabalhoFinalAD")
 load("mariaeduarda-lessa-ad-ufpe-2019.Rda")
 
@@ -17,15 +17,21 @@ shinyApp(
       titlePanel("E-Government Development Index & Democracy Index"),
       sidebarLayout(
         sidebarPanel(
-          selectInput(inputId = "y",
-                      label = "Choose Democracy Index Level",
-                      choices = levels(baseDemEgov$DemLevel),
-                      selected = "Authoritarian"),
+        h3("PLOT 1"),
+        helpText("Scatterplot of all 157 countries in the dataset, hover over points to see more informations. Also, you can click on EGDI levels displayed on the right side of the graph to select desired options."),
+        h3 ("PLOT 2"),
         selectInput(inputId = "x",
-                    label = "Choose Continent",
+                    label = "Choose Continent:",
                     choices = levels(baseDemEgov$Continent),
-                    selected = "Africa")),
-                  mainPanel(plotlyOutput("plot1"))
+                    selected = "Africa"),
+        h3("PLOT 3"),
+        selectInput(inputId = "y",
+                    label = "Choose Democracy Index Level:",
+                    choices = levels(baseDemEgov$DemLevel),
+                    selected = "Authoritarian")),
+                  mainPanel(plotlyOutput("plot1"),
+                            plotlyOutput("plot2"),
+                            plotlyOutput("plot3"))
         ))
       )
     ),
@@ -33,11 +39,16 @@ shinyApp(
   server <- shinyServer(
     function(input, output) {
       filtered_data <- reactive({
-        filter(baseDemEgov, DemLevel == input$y,
-               Continent == input$x)
+        filter(baseDemEgov, Continent == input$x,
+               GDPlog)
                          })
+      filtered_data2 <- reactive({
+        filter(baseDemEgov, DemLevel == input$y,
+               GDPlog)
+      })
+
       output$plot1 <- renderPlotly({
-        p <- ggplot(data = filtered_data(), aes(y = EGDI, x = DemIndex, 
+        p <- ggplot(data = baseDemEgov, aes(y = EGDI, x = DemIndex + GDPlog, 
                                             color = EGDILEVEL,label = Country)) +
           theme_replace()
         p <- p + geom_point()+
@@ -47,6 +58,29 @@ shinyApp(
         
         ggplotly(p)
       })
+      output$plot2 <- renderPlotly({
+        q <- ggplot(data = filtered_data(), aes(y = EGDI, x = DemIndex + GDPlog, 
+                                                color = EGDILEVEL,label = Country)) +
+          theme_replace()
+        q <- q + geom_point()+
+          scale_color_manual(values = c("Very High EGDI" = "#4682B4", 
+                                        "High EGDI" = "#3CB371", 
+                                        "Middle EGDI" = "#DAA520", "Low EGDI" = "#E9967A"))
+        
+        ggplotly(q)
+      })
+      output$plot3 <- renderPlotly({
+        r <- ggplot(data = filtered_data2(), aes(y = EGDI, x = DemIndex + GDPlog, 
+                                                color = EGDILEVEL,label = Country)) +
+          theme_replace()
+        r <- r + geom_point()+
+          scale_color_manual(values = c("Very High EGDI" = "#4682B4", 
+                                        "High EGDI" = "#3CB371", 
+                                        "Middle EGDI" = "#DAA520", "Low EGDI" = "#E9967A"))
+        
+        ggplotly(r)
+      })
+      
     }
   ))
 
