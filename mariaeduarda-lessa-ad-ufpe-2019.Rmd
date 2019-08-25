@@ -277,8 +277,8 @@ plot5 + scale_color_manual(values = c("#4682B4", "#3CB371", "#DAA520", "#E9967A"
 ###### Persily, N. (2017). _The 2016 U.S. Election: Can Democracy Survive the Internet?_ Journal of Democracy, 2, 63-76.
 ###### Przeworski, A. & Limongi, F. (1993). _Political Regimes and Economic Growth_. The Journal of Economic Perspectives, 7(3), 51-69.
 ###### Schwab, K. (2017). _The Fourth Industrial Revolution_. Crown Publishing Group, New York.
-###### Roseth, B., Reyes, A., Farias, P., Porrúa, M., Villalba, H., Acevedo, S., Peña, N., Estevez, E., Lejarraga, S., & Fillotrani, P. (2018). _Wait No More: Citizens, Red Tape, and Digital Government_. Interamerican Development Bank, website.
 ###### Silcock, R. (2001). _What is E-government_. Parliamentary Affairs, 54(1), 88–101.
+###### Roseth, B., Reyes, A., Farias, P., Porrúa, M., Villalba, H., Acevedo, S., Peña, N., Estevez, E., Lejarraga, S., & Fillotrani, P. (2018). _Wait No More: Citizens, Red Tape, and Digital Government_. Interamerican Development Bank, website.
 ###### Tat-Kei Ho, A. (2002). _Reinventing Local Governments and the E-Government Initiative_. Public Administration Review, 62(4), 434–444. 
 
 
