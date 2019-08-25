@@ -138,7 +138,7 @@ plot1 + scale_color_manual(values = c("#4682B4", "#3CB371", "#DAA520", "#E9967A"
 #### &nbsp;&nbsp;&nbsp; This result points out that for an additional unit in the Democracy Index, an increase of approximately 0.066 in the E-government Development Index is expected; and that a country's “level” of democracy explains 0.44 of the variation in their capacity and readiness to offer electronic public services. This result, therefore, endorses the first hypothesis (**H1**) that more democratic countries will present, frequently, higher EGDI scores, since the analysis showed that there is a positive relation among these factors. It is possible to observe that some countries present extreme values (or are considered outliers): Bahrain, with DemIndex equal to 2.71 and EGDI 0.81; Belarus, 3.13 and 0.76; Kazakhstan, 2.94 and 0.76; Russia, 2.9 and 0.80; Saudi Arabia, 1.93 and 0.71; and finally, United Arab Emirates, which has a score of 2.76 on the Democracy Index and 0.829 on the EGDI.
 
 ```{r fig.pos='H', out.width="90%", dpi=200, echo=FALSE, message=FALSE, warning=FALSE}
-knitr::include_graphics('C:/Users/Duda/Desktop/TrabalhoFinalAD/TableReg1.png')
+knitr::include_graphics('C:/Users/Duda/Desktop/TrabalhoFinalAD/Table1.png')
 ```
 
 #### &nbsp;&nbsp;&nbsp; Since different regions appear to follow different patterns and GDP also interferes in the “level” of EGDI - as previously discussed - a multiple regression seems more appropriate for the analysis of this relation. Therefore, in a second model, a multiple regression analysis was performed by adding to the bivariate regression the independent variable GDP _per capita_, which will function as a control variable, and an interactive term of the Democracy Index and the continent to which countries belong. In the sample, out of 157 countries, 48 are located on the African continent; 24 on the American continent; 43 on the Asian continent; 38 in the European continent and only 4 in Oceania.
@@ -158,7 +158,7 @@ plot2 + scale_color_manual(values = c("#4682B4", "#3CB371", "#DAA520", "#E9967A"
 
 ```{r out.width="120%", dpi=200, fig.align='center', echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE, fig.align="center")
-knitr::include_graphics('C:/Users/Duda/Desktop/TrabalhoFinalAD/TableReg2.png')
+knitr::include_graphics('C:/Users/Duda/Desktop/TrabalhoFinalAD/Table2.png')
 
 ```
 
