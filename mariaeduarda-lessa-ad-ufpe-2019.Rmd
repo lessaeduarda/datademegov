@@ -40,8 +40,9 @@ require(tinytex)
                backgroundcolor = 1 1 1,%
                color = 0 0 0,%
                value = {%
-                          Dataset and codes available at Github and Dataverse:             https://github.com/lessaeduarda/datademegov                         
-https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/RKQ4SE
+                          Dataset and codes available at Github and Dataverse:
+                          https://github.com/lessaeduarda/datademegov
+                          https://dataverse.harvard.edu/privateurl.xhtml?token=b3b2e3f2-812d-4891-997e-0fbdc458388a
                         }%
                ]{}
 \end{Form}
