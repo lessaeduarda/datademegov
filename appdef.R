@@ -11,20 +11,10 @@ if(require(shinythemes)==F)install.packages('shinythemes');require(shinythemes)
 setwd("C:/Users/Duda/Desktop/TrabalhoFinalAD")
 load("mariaeduarda-lessa-ad-ufpe-2019.Rda")
 
-require(shiny)
-require(ggplot2)
-require(ggrepel)
-require(magrittr)
-require(dplyr)
-require(plotly)
-require(shinythemes)
-setwd("C:/Users/Duda/Desktop/TrabalhoFinalAD")
-load("mariaeduarda-lessa-ad-ufpe-2019.Rda")
-
 shinyApp(
   ui <- shinyUI(fluidPage(
     fluidPage(theme = shinytheme("lumen"),
-      titlePanel("E-Government Development Index & Democracy Index"),
+      titlePanel("Does Democracy Encourage E-Government?"),
       h4( "Data visualization for the relation between The Economist Intelligence Unit's Democracy Index and United Nation's E-Government Development Index, controlled by GDP per capita transformed in log."),
       sidebarLayout(
         sidebarPanel(
