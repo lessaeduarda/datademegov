@@ -3,16 +3,16 @@
 load("mariaeduarda-lessa-ad-ufpe-2019.RData")
 
 # Require or install packages: 
-require(ggforce)
-require(ggplot2)
-require(ggrepel)
-require(stargazer)
-require(coefplot)
-require(lmtest)
-require(MASS)
-require(magrittr)
-require(dplyr)
-require(car)
+if(require(ggforce)==F)install.packages('ggforce');require(ggforce)
+if(require(ggplot2)==F)install.packages('ggplot2');require(ggplot2)
+if(require(ggrepel)==F)install.packages('ggrepel');require(ggrepel)
+if(require(stargazer)==F)install.packages('stargazer');require(stargazer)
+if(require(coefplot)==F)install.packages('coefplot');require(coefplot)
+if(require(lmtest)==F)install.packages('lmtest');require(lmtest)
+if(require(MASS)==F)install.packages('MASS');require(MASS)
+if(require(magrittr)==F)install.packages('magrittr');require(magrittr)
+if(require(dplyr)==F)install.packages('dplyr');require(dplyr)
+if(require(car)==F)install.packages('car');require(car)
 
 ---
 
@@ -51,7 +51,7 @@ stargazer(mod, type = "text", title="Regression Results", align=TRUE,
           covariate.labels=c("Democracy Index"), omit.stat=c("LL","ser","f"), 
           no.space=TRUE)
 
-# Plot bivariate linear regression (FIGURE2):
+# Plot bivariate linear regression (FIGURE 2):
 plot2 <- ggplot(data = baseDemEgov, aes(y = EGDI, x = DemIndex, 
                                         color = EGDILEVEL)) +
   ggtitle(label = "FIGURE 2", subtitle = "Bivariate Linear Regression Plot" )+
