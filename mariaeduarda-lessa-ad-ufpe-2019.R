@@ -1,4 +1,7 @@
 
+# !! Set your own working directory !!
+setwd()
+
 # Load database:
 load("mariaeduarda-lessa-ad-ufpe-2019.RData")
 
@@ -28,16 +31,32 @@ baseDemEgov$EGDILEVEL <- factor(baseDemEgov$EGDILEVEL, levels = c("Very High EGD
                                                                   "Middle EGDI",
                                                                   "Low EGDI"))
 
+baseDemEgov$DemLevel <- factor(baseDemEgov$DemLevel, levels = c("Full democracy",
+                                                                "Flawed democracy",
+                                                                "Hybrid regime",
+                                                                "Authoritarian"))
+---
 
+## FIGURE 1:
+  
+# Select countries to be shown in the scatterplot (FIGURE 1):
+selectedcountries <- c("Niger", "Denmark", "Iceland", "Uruguay", 
+                       "Russian Federation", "China", "United Arab Emirates",
+                       "Bahrain", "Chad", "Estonia", "Costa Rica", "Mauritius", 
+                       "Belarus", "Kazakhstan")
 
-# Plot Countries and EGDI Levels (FIGURE 1):
-plot1 <- ggplot(data = baseDemEgov, aes(y = EGDI, x = DemIndex, color = EGDILEVEL, 
+# Plot Countries and continents:
+plot1 <- ggplot(data = baseDemEgov, aes(y = EGDI, x = DemIndex, color = Continent, 
                                         label = Country)) +
+  ggtitle(label = "FIGURE 1", subtitle = "DemIndex & EGDI Scatterplot")+
   geom_point() +
-  geom_text_repel(aes(x = DemIndex, y = EGDI,label = Country))+
+  geom_text_repel(data = subset(baseDemEgov, Country %in% selectedcountries),
+                  aes(label = Country), show.legend = F)+
   theme_replace()
-plot1 + scale_color_manual(values = c("#4682B4", "#3CB371", "#DAA520", "#E9967A"))
+plot1 + scale_color_manual(values = c("#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#0c2c84"))
 
+---
+  
 # Pearson's correlation coefficient between variables:
 cor.test(baseDemEgov$DemIndex, baseDemEgov$EGDI)
 
@@ -51,14 +70,19 @@ stargazer(mod, type = "text", title="Regression Results", align=TRUE,
           covariate.labels=c("Democracy Index"), omit.stat=c("LL","ser","f"), 
           no.space=TRUE)
 
-# Plot bivariate linear regression (FIGURE 2):
+---
+  
+## FIGURE 2:
+
+# Plot bivariate linear regression:
 plot2 <- ggplot(data = baseDemEgov, aes(y = EGDI, x = DemIndex, 
-                                        color = EGDILEVEL)) +
+                                        color = Continent)) +
   ggtitle(label = "FIGURE 2", subtitle = "Bivariate Linear Regression Plot" )+
   geom_point() +
   theme_replace() +
   geom_smooth(method = "lm", color = "black", se = T)
-plot2 + scale_color_manual(values = c("#4682B4", "#3CB371", "#DAA520", "#E9967A"))
+plot2 + scale_color_manual(values = c("#7fcdbb", "#41b6c4", "#1d91c0",
+                                      "#225ea8", "#0c2c84"))
 
 # Plot residual analysis:
 residreg <- resid(mod)
@@ -68,6 +92,8 @@ ggplot(data = baseDemEgov, aes(y = residreg, x = DemIndex)) +
   geom_smooth(method="lm", color = "black", se = F) +
   labs(title = "Residual Analysis", y = "Residuals", x = "DemIndex")
 
+---
+  
 # Check for outliers (or extrem values) in the bivariate regression:
 which(rstudent(mod) > 2)
 # Bahrain, Belarus, Kazakhstan, Russian Federation, Saudi Arabia and United Arab
@@ -75,7 +101,6 @@ which(rstudent(mod) > 2)
 
 
 ---
-  
   
 # Analyze the variance of the DemIndex effect over EGDI within the continents:
 res.aov <- aov(EGDI ~ DemIndex:Continent, data = baseDemEgov)
@@ -87,13 +112,19 @@ summary(res.aov)
 
 # Density of the independent variable per capita GDP, before and after its 
 # transformation in log:
-hist(baseDemEgov$GDP, freq = F, xlab = "GDP PPC", main = "Distribuition GDP PPC")
-lines(density(baseDemEgov$GDP), col = "#4682B4", lwd = 4)
 
+# Before:
+hist(baseDemEgov$GDP, freq = F, xlab = "GDP PC", main = "Distribution GDP PC")
+lines(density(baseDemEgov$GDP), col = "#225ea8", lwd = 4)
+
+# After:
 hist(baseDemEgov$GDPlog, freq = F, xlab = "GDP PPC log", 
      main = "Distribuition GDP PPC log")
-lines(density(baseDemEgov$GDPlog), col = "#4682B4", lwd = 4)
+lines(density(baseDemEgov$GDPlog), col = "#225ea8", lwd = 4)
 
+
+---
+  
 # Multiple Linear Regression, DV = EGDI, IVs = interaction term Continent x 
 # Democracy Index and GDPlog:
 
@@ -129,17 +160,31 @@ confint(mod3)
 confint(mod4)
 confint(mod5)
 
+---
+  
+## FIGURE 3:
+  
 # Plot coefficients without the intercept:
-coefplot.lm(mod1, col="#4682B4",intercept=F)
-coefplot.lm(mod2, col="#4682B4",intercept=F)
-coefplot.lm(mod3, col="#4682B4",intercept=F)
-coefplot.lm(mod4, col="#4682B4",intercept=F)
-coefplot.lm(mod5, col="#4682B4",intercept=F)
+multicoefplot <-  multiplot(mod1, mod2, mod3, mod4, 
+                            title = "FIGURE 3 \n Coefficient Plot",
+                            intercept= F, plot.shapes = T, lwdOuter = 0.6, 
+                            pointSize = 2, names = c("Model 1", "Model 2", 
+                                                     "Model 3", "Model 4"), 
+                            coefficients = c("DemIndex", 
+                                             "DemIndex:ContinentAfrica",
+                                             "DemIndex:ContinentAmerica",
+                                             "DemIndex:ContinentAsia",
+                                             "DemIndex:ContinentEurope"))
+multicoefplot + scale_color_manual(values = c("#7fcdbb", "#41b6c4", "#1d91c0", 
+                                              "#225ea8"))+
+  annotate("text", x = 0.06, y = 0.7, label = "bold(R) ^ 2 == 0.856",parse = TRUE)
 
+---
+  
 # Plot residual analysis:
 residmod1 <- resid(mod1)
 ggplot(data = baseDemEgov, aes(y = residmod1, x = DemIndex:Continent + GDPlog)) +
-  geom_point(color = "#4682B4") +
+  geom_point(color = "#225ea8") +
   theme_replace() +
   geom_smooth(method="lm", color = "black", se = F) +
   labs(title = "Residual Analysis", y = "Residuals", x = "GDP, DemIndex, Continent")
@@ -155,7 +200,7 @@ hist(sresidmod1, freq=FALSE,
      main="Distribution of Studentized Residuals")
 xfit1 <- seq(min(sresidmod1),max(sresidmod1),length=40) 
 yfit1 <- dnorm(xfit1) 
-lines(xfit1, yfit1, col = "#4682B4", lwd = 4)
+lines(xfit1, yfit1, col = "#225ea8", lwd = 4)
 
 # Check for outliers:
 which(rstudent(mod1) > 2)
@@ -186,24 +231,43 @@ sqrt(vif(mod5)) > 2
 # Check model homocedasticity:
 bptest(baseDemEgov$DemIndex ~ baseDemEgov$EGDI + baseDemEgov$GDPlog)
 
+---
+
+## FIGURE 4:
+
+# Set levels:
+baseDemEgov$Continent <- factor(baseDemEgov$Continent, levels = c("Africa",
+                                                                    "America",
+                                                                    "Asia",
+                                                                    "Europe",
+                                                                    "Oceania"))  
 # Plot Multiple Linear Regression (FIGURE 3):
 plot3 <- ggplot(data = baseDemEgov, aes(y = EGDI, x = DemIndex:Continent + 
-                                    GDPlog, color = EGDILEVEL)) +
+                                          GDPlog, color = Continent)) +
+  ggtitle(label = "FIGURE 4", subtitle = "Multiple Linear Regression Plot") +
   geom_point() +
   theme_replace() +
   geom_smooth(method = "lm", color = "black", se = T)
-plot3 + scale_color_manual(values = c("#4682B4", "#3CB371", "#DAA520", "#E9967A"))
+plot3 + scale_color_manual(values = c("#7fcdbb", "#41b6c4", "#1d91c0", 
+                                      "#225ea8", "#0c2c84"))
 
-# Plot Multiple Linear Regression faceted by continent without Oceania
-# (FIGURE 4):
-plot4 <- ggplot(data = baseDemEgov, aes(y = EGDI, x = DemIndex:Continent + 
-                                             GDPlog, color = EGDILEVEL)) +
+---
+
+## FIGURE 5:
+  
+# Plot Multiple Linear Regression faceted by continent without Oceania:
+  plot4 <- ggplot(data = baseDemEgov, aes(y = EGDI, x = DemIndex:Continent + 
+                                            GDPlog, color = DemLevel)) +
+  ggtitle(label = "FIGURE 5", 
+          subtitle = "Multiple Linear Regression Plot Faceted by Continent") +
   geom_point() +
   theme_replace() +
   geom_smooth(method = "lm", color = "black", se = T) +
   facet_wrap_paginate(~Continent, ncol = 2, nrow = 2, page = 1)
-plot4 + scale_color_manual(values = c("#4682B4", "#3CB371", "#DAA520", "#E9967A"))
+plot4 + scale_color_manual(values = c("#225ea8", "#1d91c0", "#41b6c4", "#7fcdbb"))
 
+---
+  
 # Check percentage of democratic countries in each continent:
 target <- c("Full democracy", "Flawed democracy")
 
@@ -239,23 +303,33 @@ ContOceania <- filter(ContOceania, DemLevel %in% target) #3
 
 
 ---
-  
+
+## FIGURE 6:  
 
 # Scatterplot variation of DemIndex x Variation of EGDI: 
-plot5 <- ggplot(data = baseDemEgov, aes(y = DeltaEGDI, x = DeltaDemIndex,
-                                        color = EGDILEVEL, label = Country)) +
-geom_point() +
-geom_text_repel(aes(x = DeltaDemIndex, y = DeltaEGDI,label = Country))+
-theme_replace()
-plot5 + scale_color_manual(values = c("#4682B4", "#3CB371", "#DAA520", "#E9967A"))
+  selectedcountries2 <- c("Tunisia", "Russian Federation", "Sweden", "Ghana", 
+                          "Uruguay", "Kazakhstan", "Myanmar", "Norway", 
+                          "Equatorial Guinea", "Nicaragua", "Lesotho", "Turkey",
+                          "Montenegro")
+plot5 <- ggplot(data = baseDemEgov, aes(y = DeltaEGDI, x = DeltaDemIndex + DeltaGDPlog,
+                                        color = Continent, label = Country)) +
+  ggtitle(label = "FIGURE 6", subtitle = "DemIndex & EGDI Variation Scatterplot")+
+  geom_point() +
+  geom_text_repel(data = subset(baseDemEgov, Country %in% selectedcountries2),
+                  aes(label = Country), show.legend = F)+
+  theme_replace()
+plot5 + scale_color_manual(values = c("#7fcdbb", "#41b6c4", "#1d91c0", 
+                                      "#225ea8", "#0c2c84"))
 
+---
+  
 # Multiple Linear Regression, DV =  EGDI variation between 2008 and 2018 
 # (DeltaEGDI), IVs = Democracy Index variation between 2008 and 2018 
 # (DeltaDemIndex) + GDP per capita (log) variation within the same period:
-reg3 <- lm(DeltaEGDI ~ DeltaDemIndex + DeltaGDPlog, data = baseDemEgov)
-summary(reg3)
+mod6 <- lm(DeltaEGDI ~ DeltaDemIndex + DeltaGDPlog, data = baseDemEgov)
+summary(mod6)
 
-stargazer(reg3, type = "text", title="Regression Results", align=TRUE,
+stargazer(mod6, type = "text", title="Regression Results", align=TRUE,
           dep.var.labels=c("E-Government Development Index Delta"),
           covariate.labels=c("Democracy Index Delta", "GDP Delta (log)"), 
           omit.stat=c("LL","ser","f"),
@@ -279,3 +353,4 @@ AuthoVeryHigh$Country
 AuthoHigh <- filter(baseDemEgov, EGDILEVEL == "High EGDI")
 AuthoHigh <- filter(AuthoHigh, DemLevel == "Authoritarian")
 AuthoHigh$Country
+
